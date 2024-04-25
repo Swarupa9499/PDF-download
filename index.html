@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Certificate</title>
+</head>
+<body>
+    <h2>Download Certificate</h2>
+    
+    <form id="downloadForm">
+        <label for="nameInput">Enter Name:</label>
+        <input type="text" id="nameInput" required>
+        <button type="submit">Download Certificate</button>
+    </form>
+
+    <script>
+        const pdfLinks = {
+            "John Doe": "https://example.com/certificates/John_Doe_Certificate.pdf",
+            "Jane Smith": "https://example.com/certificates/Jane_Smith_Certificate.pdf",
+        };
+
+        document.getElementById('downloadForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+    
+            const name = document.getElementById('nameInput').value.trim();
+
+            if (pdfLinks.hasOwnProperty(name)) {
+                const pdfUrl = pdfLinks[name];
+                downloadPDF(pdfUrl);
+            } else {
+                alert(`Certificate not found for '${name}'`);
+            }
+
+            document.getElementById('nameInput').value = '';
+        });
+
+        function downloadPDF(url) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank'; 
+            link.download = url.split('/').pop(); 
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
